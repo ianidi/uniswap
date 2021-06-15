@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import DatePicker from "react-modern-calendar-datepicker";
+import DatePicker from "@hassanmojab/react-modern-calendar-datepicker";
+import { getUnixTime } from "date-fns"
 import './datepicker.css'
 
 export const Datepicker = ({ callback, value, placeholder }) => {
@@ -115,7 +116,7 @@ export const Datepicker = ({ callback, value, placeholder }) => {
             ref={ref}
             placeholder={placeholder}
             //@ts-ignore
-            value={selectedDay ? `${selectedDay.day}/${selectedDay.month}/${selectedDay.year}` : ""}
+            value={selectedDay ? `${selectedDay.year}-${selectedDay.month}-${selectedDay.day}` : ""}
             className="input datepicker__input"
         />
     );
@@ -127,7 +128,8 @@ export const Datepicker = ({ callback, value, placeholder }) => {
                 <DatePicker
                     value={selectedDay}
                     onChange={(val) => {
-                        callback(val);
+                        //@ts-ignore
+                        callback(getUnixTime((new Date(val.year, val.month - 1, val.day, 0, 0, 0))));
                         //@ts-ignore
                         setSelectedDay(val);
                     }}

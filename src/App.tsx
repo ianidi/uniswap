@@ -9,8 +9,8 @@ import { TableComponent } from './Table';
 import { Datepicker } from './components/datepicker';
 //, timestamp_gte: "10000000000", timestamp_lte: "10000000000"
 const SWAPS_QUERY = gql`
-  query swaps($sender: String) {
-    swaps(orderBy: timestamp, orderDirection: desc, where: { sender: $sender }) {
+  query swaps($sender: String, $timestampFrom: Int, $timestampTo: Int) {
+    swaps(first: 200, orderBy: timestamp, orderDirection: asc, where: { sender: $sender, timestamp_gte: $timestampFrom, timestamp_lte: $timestampTo }) {
       id
       transaction { id }
       sender
@@ -27,19 +27,19 @@ const SWAPS_QUERY = gql`
   }
 `;
 
-const AppContext = React.createContext({ sender: '' });
+const AppContext = React.createContext({ sender: '', timestampFrom: 0, timestampTo: getUnixTime(new Date()) });
 
 const Swaps = () => {
-  const { sender } = useContext(AppContext);
+  const { sender, timestampFrom, timestampTo } = useContext(AppContext);
 
   const { loading, error, data, refetch, networkStatus } = useQuery(SWAPS_QUERY, {
-    variables: { sender },
+    variables: { sender, timestampFrom, timestampTo },
     notifyOnNetworkStatusChange: true,
   });
 
   useEffect(() => {
     refetch();
-  }, [sender])
+  }, [sender, timestampFrom, timestampTo])
 
   if (loading || networkStatus === NetworkStatus.refetch) {
     return <CircularProgress size={20} />;
@@ -83,22 +83,24 @@ function Form({ children }) {
   const [sender, setSender] = useState("");
   const [dateFrom, setDateFrom] = React.useState(new Date('2021-01-01T00:00:00'));
   const [dateTo, setDateTo] = React.useState(new Date('2021-06-01T00:00:00'));
+  const [timestampFrom, setTimestampFrom] = React.useState(0);
+  const [timestampTo, setTimestampTo] = React.useState(getUnixTime(new Date()));
 
   const update = () => {
     setSender(wallet)
   }
 
   const handleDateFromChange = (date) => {
-    setDateFrom(date);
+    setTimestampFrom(date);
   };
 
   const handleDateToChange = (date) => {
-    setDateTo(date);
+    setTimestampTo(date);
   };
 
   return (
     <div>
-      <AppContext.Provider value={{ sender }}>
+      <AppContext.Provider value={{ sender, timestampFrom, timestampTo }}>
         <form noValidate autoComplete="off">
           <TextField label="Wallet address" value={wallet} onChange={e => setWallet(e.target.value)} style={{ minWidth: 400 }} />
         </form>
