@@ -1,20 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getUnixTime } from "date-fns"
 import { RootState } from "./";
 
 interface IinitialState {
   rangeCheckbox: boolean
   wallet: string
   walletType: string
-  timestampFrom: string
-  timestampTo: string
+  timestampFrom: number
+  timestampTo: number
 }
 
 const initialState: IinitialState = {
   rangeCheckbox: false,
-  wallet: "0xe592427a0aece92de3edee1f18e0157c05861564",
+  wallet: "", //0xe592427a0aece92de3edee1f18e0157c05861564
   walletType: "sender",
-  timestampFrom: "0",
-  timestampTo: "0",
+  timestampFrom: 0,
+  timestampTo: getUnixTime((new Date())),
 }
 
 export const appSlice = createSlice({
