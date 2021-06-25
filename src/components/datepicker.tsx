@@ -117,7 +117,7 @@ export const Datepicker = ({ callback, value, placeholder }) => {
             ref={ref}
             placeholder={placeholder}
             //@ts-ignore
-            value={selectedDay ? `${selectedDay.year}-${selectedDay.month}-${selectedDay.day}` : ""}
+            value={selectedDay ? `${selectedDay.day}-${selectedDay.month}-${selectedDay.year}` : ""}
             className="input datepicker__input"
         />
     );
