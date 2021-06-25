@@ -8,6 +8,8 @@ interface IinitialState {
   walletType: string
   timestampFrom: number
   timestampTo: number
+  items: number
+  offset: number
 }
 
 const initialState: IinitialState = {
@@ -16,6 +18,8 @@ const initialState: IinitialState = {
   walletType: "sender",
   timestampFrom: 0,
   timestampTo: getUnixTime((new Date())),
+  items: 200,
+  offset: 0,
 }
 
 export const appSlice = createSlice({
@@ -37,15 +41,31 @@ export const appSlice = createSlice({
     setTimestampTo: (state, action) => {
       state.timestampTo = action.payload;
     },
+    setItems: (state, action) => {
+      state.offset = 0;
+      state.items = Number(action.payload);
+    },
+    prevOffset: (state) => {
+      if (state.offset > state.items) {
+        state.offset -= state.items;
+      } else {
+        state.offset = 0;
+      }
+    },
+    nextOffset: (state) => {
+      state.offset += state.items;
+    },
   }
 });
 
-export const { setRangeCheckbox, setWallet, setWalletType, setTimestampFrom, setTimestampTo } = appSlice.actions;
+export const { setRangeCheckbox, setWallet, setWalletType, setTimestampFrom, setTimestampTo, setItems, prevOffset, nextOffset } = appSlice.actions;
 
 export const selectRangeCheckbox = (state: RootState) => state.app.rangeCheckbox;
 export const selectWallet = (state: RootState) => state.app.wallet;
 export const selectWalletType = (state: RootState) => state.app.walletType;
-export const selectTimestampFrom = (state: RootState) => state.app.timestampFrom;
-export const selectTimestampTo = (state: RootState) => state.app.timestampTo;
+export const selectTimestampFrom = (state: RootState) => state.app.rangeCheckbox ? state.app.timestampFrom : 0;
+export const selectTimestampTo = (state: RootState) => state.app.rangeCheckbox ? state.app.timestampTo : getUnixTime((new Date()));
+export const selectItems = (state: RootState) => state.app.items;
+export const selectOffset = (state: RootState) => state.app.offset;
 
 export default appSlice.reducer;

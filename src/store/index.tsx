@@ -2,15 +2,17 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import appReducer from "./appSlice";
+import dataReducer from "./dataSlice";
 
 const reducers = combineReducers({
-  app: appReducer
+  app: appReducer,
+  data: dataReducer
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["router"]
+  blacklist: ["data", "router"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

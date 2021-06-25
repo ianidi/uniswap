@@ -1,14 +1,28 @@
 import { gql } from 'graphql-request'
 
-//, $timestampFrom: Int, $timestampTo: Int
-//, timestamp_gte: $timestampFrom, timestamp_lte: $timestampTo
+export const SWAPS_QUERY_SENDER = gql`
+query swaps($wallet: String, $timestampFrom: Int, $timestampTo: Int, $items: Int, $offset: Int) {
+  swaps(first: $items, skip: $offset, orderBy: timestamp, orderDirection: asc, where: { sender: $wallet, timestamp_gte: $timestampFrom, timestamp_lte: $timestampTo }) {
+    id
+    transaction { id }
+    timestamp
+    sender
+    recipient
+    origin
+    token0 { symbol, name }
+    token1 { symbol, name }
+    amount0
+    amount1
+    amountUSD
+  }
+}
+`;
 
-export const SWAPS_QUERY = gql`
-  query swaps($sender: String) {
-    swaps(first: 200, orderBy: timestamp, orderDirection: asc, where: { sender: $sender }) {
+export const SWAPS_QUERY_RECIPIENT = gql`
+  query swaps($wallet: String, $timestampFrom: Int, $timestampTo: Int, $items: Int, $offset: Int) {
+    swaps(first: $items, skip: $offset, orderBy: timestamp, orderDirection: asc, where: { recipient: $wallet, timestamp_gte: $timestampFrom, timestamp_lte: $timestampTo }) {
       id
       transaction { id }
-      sender
       timestamp
       sender
       recipient
@@ -21,3 +35,6 @@ export const SWAPS_QUERY = gql`
     }
   }
 `;
+
+// offset to 0
+// prev next
