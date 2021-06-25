@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FormLabel } from "@chakra-ui/react"
 import DatePicker from "@hassanmojab/react-modern-calendar-datepicker";
 import { getUnixTime } from "date-fns"
-import './datepicker.css'
+import './Datepicker.css'
 
 export const Datepicker = ({ callback, value, placeholder }) => {
     //@ts-ignore
