@@ -130,7 +130,7 @@ export const Datepicker = ({ callback, value, placeholder }) => {
                     value={selectedDay}
                     onChange={(val) => {
                         //@ts-ignore
-                        callback(getUnixTime((new Date(val.year, val.month - 1, val.day, 0, 0, 0))));
+                        callback(getUnixTime((new Date(val.year, val.month - 1, val.day + 1, 0, 0, 0))));
                         //@ts-ignore
                         setSelectedDay(val);
                     }}
