@@ -1,28 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./";
 
-interface initialState {
-  token: string
+interface IinitialState {
+  rangeCheckbox: boolean
+  wallet: string
 }
 
-const initialState: initialState = {
-  token: "0",
+const initialState: IinitialState = {
+  rangeCheckbox: false,
+  wallet: "0xe592427a0aece92de3edee1f18e0157c05861564"
 }
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setToken: (state, action) => {
-      state.token = action.payload;
+    setRangeCheckbox: (state, action) => {
+      state.rangeCheckbox = action.payload;
+    },
+    setWallet: (state, action) => {
+      state.wallet = action.payload;
     },
   }
 });
 
-export const {
-  setToken,
-} = appSlice.actions;
+export const { setRangeCheckbox, setWallet } = appSlice.actions;
 
-export const selectToken = (state: RootState) => state.app.token;
+export const selectRangeCheckbox = (state: RootState) => state.app.rangeCheckbox;
+export const selectWallet = (state: RootState) => state.app.wallet;
 
 export default appSlice.reducer;
