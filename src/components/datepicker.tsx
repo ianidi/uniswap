@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FormLabel } from "@chakra-ui/react"
 import DatePicker from "@hassanmojab/react-modern-calendar-datepicker";
 import { getUnixTime } from "date-fns"
 import './datepicker.css'
@@ -124,7 +125,7 @@ export const Datepicker = ({ callback, value, placeholder }) => {
     return (
         <React.Fragment>
             <div className="datepicker__wrapper">
-                {placeholder}
+                <FormLabel>{placeholder}</FormLabel>
                 <DatePicker
                     value={selectedDay}
                     onChange={(val) => {

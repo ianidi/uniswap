@@ -2,9 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { createMuiTheme, ThemeProvider as ThemeProviderMaterial } from "@material-ui/core/styles";
+import { ChakraProvider } from "@chakra-ui/react"
 import 'fontsource-roboto';
 
-import App from './App';
+import List from './List';
 
 const GRAPHQL_API_URL = 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-testing';
 
@@ -38,10 +39,12 @@ const themeMaterial = createMuiTheme({
 });
 
 render(
-  <ApolloProvider client={client}>
-    <ThemeProviderMaterial theme={themeMaterial}>
-      <App />
-    </ThemeProviderMaterial>
-  </ApolloProvider>,
+  <ChakraProvider>
+    <ApolloProvider client={client}>
+      <ThemeProviderMaterial theme={themeMaterial}>
+        <List />
+      </ThemeProviderMaterial>
+    </ApolloProvider>
+  </ChakraProvider>,
   document.getElementById('root')
 );

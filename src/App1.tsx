@@ -8,9 +8,13 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { TableComponent } from './Table';
 import { Datepicker } from './components/datepicker';
 //, timestamp_gte: "10000000000", timestamp_lte: "10000000000"
+
+//, $timestampFrom: Int, $timestampTo: Int
+//, timestamp_gte: $timestampFrom, timestamp_lte: $timestampTo
+
 const SWAPS_QUERY = gql`
-  query swaps($sender: String, $timestampFrom: Int, $timestampTo: Int) {
-    swaps(first: 200, orderBy: timestamp, orderDirection: asc, where: { sender: $sender, timestamp_gte: $timestampFrom, timestamp_lte: $timestampTo }) {
+  query swaps($sender: String) {
+    swaps(first: 200, orderBy: timestamp, orderDirection: asc, where: { sender: $sender }) {
       id
       transaction { id }
       sender
@@ -66,8 +70,6 @@ const headCells = [
 ];
 
 const App = () => {
-
-
   return (
     <div>
       <Form>
